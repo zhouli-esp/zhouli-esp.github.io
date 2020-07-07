@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav_16x16.jpg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":32,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="针对常看到的关于加密通信的几个名词做了简单整理，不构成知识体系。信息来自网络，更多信息可阅读 参考资料">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ESP32 security">
+<meta property="og:url" content="http://yoursite.com/2020/03/15/ESP32-security/index.html">
+<meta property="og:site_name" content="TDA2030">
+<meta property="og:description" content="针对常看到的关于加密通信的几个名词做了简单整理，不构成知识体系。信息来自网络，更多信息可阅读 参考资料">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2960526-f952f39f3e341564.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2960526-3bbf619ee9ab9547.png">
+<meta property="article:published_time" content="2020-03-15T11:13:04.000Z">
+<meta property="article:modified_time" content="2020-07-06T13:55:51.829Z">
+<meta property="article:author" content="zl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2960526-f952f39f3e341564.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/15/ESP32-security/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>ESP32 security | TDA2030</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TDA2030</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">espressif learning</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/15/ESP32-security/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zl">
+      <meta itemprop="description" content="事情如果有变坏的可能，不管这种可能性有多小，它总会发生。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TDA2030">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ESP32 security
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-15 19:13:04" itemprop="dateCreated datePublished" datetime="2020-03-15T19:13:04+08:00">2020-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-06 21:55:51" itemprop="dateModified" datetime="2020-07-06T21:55:51+08:00">2020-07-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>针对常看到的关于加密通信的几个名词做了简单整理，不构成知识体系。信息来自网络，更多信息可阅读 <a href="##参考资料">参考资料</a></p>
+</blockquote>
+<a id="more"></a>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="加密的目标"><a href="#加密的目标" class="headerlink" title="加密的目标"></a>加密的目标</h2><ol>
+<li>数据的安全性，不被窃取</li>
+<li>数据的完整性，不被篡改</li>
+<li>数据的不可否认性，验证发送方确实发送了数据</li>
+<li>数据的真实性，数据确实来自发送方</li>
+</ol>
+<h2 id="密码的分类"><a href="#密码的分类" class="headerlink" title="密码的分类"></a>密码的分类</h2><ol>
+<li>对称加密：也称单钥或私钥密码体制，其加密密钥和解密密钥相同，或实质上等同， 即从一个易于推出另一个。</li>
+</ol>
+<ul>
+<li>分组密码：将明文分为固定长度的组，用同一秘钥和算法对每一块加密，输出也是固定长度的密文，解密过程也一样</li>
+<li>序列密码：  又称为流密码，每次加密一位或一字节的明文。</li>
+</ul>
+<ol start="2">
+<li>非对称加密：又称双钥或公钥密码体制，其加密密钥和解密密钥不同，从一个很难推出另一个。其中的加密密钥可以公开，称为公开密钥；解密密钥必须保密，称为私有密钥。非对称加密既可用于加密也可用于签名。</li>
+</ol>
+<p>非对称密码体制不但赋予了通信的保密性，还提供了消息的认证性，无需实现交换秘钥就可通过不安全信道安全地传递信息，简化了密钥管理的工作量，适应了通信网的需要，为保密学技术应用于商业领域开辟了广阔的前景。常见的非对称密码算法：RSA(基于大整数质因子分解难题)、ECC(基于椭圆曲线离散对数难题)。公钥算法很慢，一般用于密钥管理和数字签名，对称密码将长期存在，实际工程中采用对称密码与非对称密码相结合。</p>
+<p><strong>AES-XTS加密</strong>是面向块存储设备上数据的密码保护，其是可以随机访问的，其加密解密也是可以并行化的</p>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名是公钥密码的典型应用，可以提供和现实中亲笔签名相似的效果，在技术上和法律上都有保证。是网络环境中提供消息完整性，确认身份，保证消息来源（抗抵赖性）的重要技术。</p>
+<p><strong>哈希函数</strong>：哈希函数将任意长的消息映射为一个固定长度的散列值，也称消息摘要。消息摘要可以作为认证符，完成消息认证。哈希是单向函数，从消息摘要来推理原消息是极为困难的。哈希函数的安全性是由发生碰撞的概率决定的。如果攻击者能轻易构造出两个不同的消息具有相同的消息摘要，那么这样的哈希函数是不可靠的。</p>
+<p>常见的哈希函数有：MD5，SHA1，HMAC。</p>
+<p><strong>数字签名与验证过程</strong>： 发送方用哈希函数从报文文本中生成一个128位的散列值（或报文摘要），发送方用自己的私钥对这个散列值进行加密来形成自己的数字签名。然后，这个数字签名将作为报文的附件和报文一起发送给接收方。接收方收到报文后，用同样的哈希函数从原始报文中计算出散列值（或报文摘要），接着再用发送方的公钥来对报文附加的数字签名进行解密得出另一个散列值，如果两个散列值相同，那么接收方就能确认该数字签名是发送方的。通过数字签名能够实现消息的完整性和不可抵赖性。 </p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2960526-f952f39f3e341564.png" alt="img" title="数字签名"></p>
+<h2 id="密钥管理"><a href="#密钥管理" class="headerlink" title="密钥管理"></a>密钥管理</h2><p>在网络安全中，密钥的地位举足轻重。如何安全可靠、迅速高效地分配密钥、管理密钥一直是密码学领域中的重要问题。</p>
+<ul>
+<li><strong>密钥生成</strong>：可以通过在线或离线的交互协商方式实现，如密码协议等 。密钥长度应该足够长。</li>
+<li><strong>密钥分发</strong>：采用对称加密算法进行保密通信，需要共享同一密钥。通常是系统中的一个成员先选择一个秘密密钥，然后将它传送另一个成员或别的成员。X9.17 标准描述了两种密钥：密钥加密密钥和数据密钥。密钥加密密钥加密其它需要分发的密钥；而数据密钥只对信息流进行加密。密钥加密密钥一般通过手工分发。为增强保密性，也可以将密钥分成许多不同的部分然后用不同的信道发送出去。</li>
+<li><strong>密钥验证</strong>：密钥附着一些检错和纠错位来传输，当密钥在传输中发生错误时，能很容易地被检查出来，并且如果需要，密钥可被重传。接收端也可以验证接收的密钥是否正确。发送方用密钥加密一个常量，然后把密文的前2-4字节与密钥一起发送。在接收端，做同样的工作，如果接收端解密后的常数能与发端常数匹配，则传输无错。</li>
+<li><strong>密钥更新</strong>：频繁进行新的密钥分发的确是困难的事，一种更容易的解决办法是从旧的密钥中产生新的密钥，有时称为密钥更新。可以使用单向函数进行更新密钥。</li>
+<li><strong>密钥存储</strong>：密钥可以存储在脑子、磁条卡、智能卡中。也可以把密钥平分成两部分，一半存入终端一半存入ROM 密钥。还可采用类似于密钥加密密钥的方法对难以记忆的密钥进行加密保存。</li>
+<li><strong>密钥备份</strong>：密钥的备份可以采用密钥托管、密钥分割、密钥共享等方式。</li>
+</ul>
+<h1 id="公钥基础设施PKI"><a href="#公钥基础设施PKI" class="headerlink" title="公钥基础设施PKI"></a>公钥基础设施PKI</h1><blockquote>
+<p> PKI：Public Key Infrastructure，公钥基础设施。 </p>
+</blockquote>
+<p>  PKI 是一个利用公钥加密技术为密钥和证书的管理，所设计的组件、功能子系统、操作规程等的集合，它的主要任务是管理密钥和证书，为网络用户建立安全通信信任机制。 </p>
+<ul>
+<li><strong>数字证书</strong>：提供了一种发布公钥的简便途径；一个数字证书包括：拥有者身份信息、公钥、CA 数字签名、有效期等其他信息。</li>
+<li><strong>数字签名</strong>：用来确认信息发送者的身份，保证信息的完整性和抗否认性。</li>
+</ul>
+<p>数字证书是各类终端实体和最终用户在网上进行信息交流及商业活动的身份证明，在电子交易的各个环节，交易的各方都需要验证对方数字证书的有效性，从而解决相互间的信任问题。</p>
+<h2 id="CA机构"><a href="#CA机构" class="headerlink" title="CA机构"></a>CA机构</h2><blockquote>
+<p>CA：Certificate Of Authority，认证中心。</p>
+</blockquote>
+<p> CA 作为 PKI 的核心部分，主要由注册服务器组、证书申请受理和审核机构、认证中心服务器三者组成。 　　</p>
+<ul>
+<li><p>注册服务器：通过 Web Server 建立的站点，可为客户提供 24×7 不间断的服务。客户在网上提出证书申请和填写相应的证书申请表。</p>
+</li>
+<li><p>证书申请受理和审核机构：负责证书的申请和审核。</p>
+</li>
+<li><p>认证中心服务器：是数字证书生成、发放的运行实体，同时提供发放证书的管理、证书废止列表（CRL）的生成和处理等服务。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2960526-3bbf619ee9ab9547.png" alt="img" title="证书的申请、发布、使用"></p>
+</li>
+</ul>
+<h1 id="SSL、TLS与HTTPS"><a href="#SSL、TLS与HTTPS" class="headerlink" title="SSL、TLS与HTTPS"></a>SSL、TLS与HTTPS</h1><p><strong>SSL</strong>：（Secure Socket Layer，安全套接字层），位于可靠的面向连接的网络层协议和应用层协议之间的一种协议层。SSL 通过互相认证、使用数字签名确保完整性、使用加密确保私密性，以实现客户端和服务器之间的安全通讯。该协议由两层组成：SSL 记录协议和 SSL 握手协议。</p>
+<p><strong>TLS</strong>：(Transport Layer Security，传输层安全协议)，用于两个应用程序之间提供保密性和数据完整性。该协议由两层组成：TLS 记录协议和 TLS 握手协议。</p>
+<p>最新版本的 TLS（Transport Layer  Security，传输层安全协议）是 IETF（Internet Engineering Task  Force，Internet 工程任务组）制定的一种新的协议，它建立在SSL 3.0协议规范之上，是 SSL  3.0 的后续版本。在 TLS 与 SSL3.0 之间存在着显著的差别，主要是它们所支持的加密算法不同，所以 TLS 与 SSL3.0 不能互操作。</p>
+<p>HTTPS 是以安全为目标的 HTTP 通道，简单讲是 HTTP 的安全版。即HTTP下加入 SSL 层，HTTPS 的安全基础是SSL。HTTPS使用端口 443，而不是像HTTP那样使用端口 80 来和 TCP/IP 进行通信。</p>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>密码学基础：<a href="https://blog.csdn.net/gogo_wei/article/details/81879876" target="_blank" rel="noopener">https://blog.csdn.net/gogo_wei/article/details/81879876</a></p>
+<p>PKI/CA工作原理及架构：<a href="https://www.jianshu.com/p/c65fa3af1c01" target="_blank" rel="noopener">https://www.jianshu.com/p/c65fa3af1c01</a></p>
+<p>RSA算法介绍：<a href="http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html</a></p>
+<p>RSA加密、签名的区别：<a href="https://www.cnblogs.com/pcheng/p/9629621.html" target="_blank" rel="noopener">https://www.cnblogs.com/pcheng/p/9629621.html</a></p>
+<p>AES五种加密模式：<a href="https://blog.csdn.net/xiaowang627/article/details/56270206" target="_blank" rel="noopener">https://blog.csdn.net/xiaowang627/article/details/56270206</a></p>
+<p>AES加密的四种模式详解：<a href="https://www.cnblogs.com/liangxuehui/p/4651351.html" target="_blank" rel="noopener">https://www.cnblogs.com/liangxuehui/p/4651351.html</a></p>
+<p>图解SSL/TLS协议：<a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html</a></p>
+<p>SSL，TLS，HTTPS：<a href="https://www.cnblogs.com/songhan/archive/2012/08/01/2617970.html" target="_blank" rel="noopener">https://www.cnblogs.com/songhan/archive/2012/08/01/2617970.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/15/esp-products/" rel="next" title="esp-products">
+      esp-products <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#加密的目标"><span class="nav-text">加密的目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码的分类"><span class="nav-text">密码的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名"><span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥管理"><span class="nav-text">密钥管理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#公钥基础设施PKI"><span class="nav-text">公钥基础设施PKI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CA机构"><span class="nav-text">CA机构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSL、TLS与HTTPS"><span class="nav-text">SSL、TLS与HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zl"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zl</p>
+  <div class="site-description" itemprop="description">事情如果有变坏的可能，不管这种可能性有多小，它总会发生。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp32/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp32&#x2F;overview" rel="noopener" target="_blank">ESP32</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp8266ex/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp8266ex&#x2F;overview" rel="noopener" target="_blank">ESP8266</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.meteorshowers.org/" title="https:&#x2F;&#x2F;www.meteorshowers.org&#x2F;" rel="noopener" target="_blank">meteor shower</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zl</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav_16x16.jpg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":32,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Espressif 产品选型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="esp-products">
+<meta property="og:url" content="http://yoursite.com/2020/03/15/esp-products/index.html">
+<meta property="og:site_name" content="TDA2030">
+<meta property="og:description" content="Espressif 产品选型">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-15T12:33:00.000Z">
+<meta property="article:modified_time" content="2020-07-06T13:55:51.833Z">
+<meta property="article:author" content="zl">
+<meta property="article:tag" content="esp32">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/15/esp-products/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>esp-products | TDA2030</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TDA2030</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">espressif learning</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/15/esp-products/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zl">
+      <meta itemprop="description" content="事情如果有变坏的可能，不管这种可能性有多小，它总会发生。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TDA2030">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          esp-products
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-15 20:33:00" itemprop="dateCreated datePublished" datetime="2020-03-15T20:33:00+08:00">2020-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-06 21:55:51" itemprop="dateModified" datetime="2020-07-06T21:55:51+08:00">2020-07-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Espressif 产品选型</p>
+<a id="more"></a>
+
+
+<h1 id="ESP32"><a href="#ESP32" class="headerlink" title="ESP32"></a><strong>ESP32</strong></h1><h2 id="芯片"><a href="#芯片" class="headerlink" title="芯片"></a>芯片</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ESP32-S2</th>
+<th>ESP32-D0WD-V3</th>
+<th>ESP32-D0WD</th>
+<th>ESP32-D0WDQ6-V3</th>
+<th>ESP32-D0WDQ6</th>
+<th>ESP32-D2WD</th>
+<th>ESP32-U4WDH</th>
+<th align="left">ESP32-S0WD</th>
+<th>ESP32-PICO-V3</th>
+<th>ESP32-PICO-D4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心数</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td></td>
+<td align="left">1</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>单核频率</td>
+<td>240MHz</td>
+<td>240MHz</td>
+<td>240MHz</td>
+<td>240MHz</td>
+<td>240MHz</td>
+<td>160MHz</td>
+<td></td>
+<td align="left">160MHz</td>
+<td>240MHz</td>
+<td>240MHz</td>
+</tr>
+<tr>
+<td>GPIO</td>
+<td>43</td>
+<td>34</td>
+<td>34</td>
+<td>34</td>
+<td>34</td>
+<td>34</td>
+<td></td>
+<td align="left">34</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>ROM</td>
+<td>128K</td>
+<td>448K</td>
+<td>448K</td>
+<td>448K</td>
+<td>448K</td>
+<td>448K</td>
+<td></td>
+<td align="left">448K</td>
+<td>448K</td>
+<td>448K</td>
+</tr>
+<tr>
+<td>SRAM</td>
+<td>320K</td>
+<td>520K</td>
+<td>520K</td>
+<td>520K</td>
+<td>520K</td>
+<td>520K</td>
+<td></td>
+<td align="left">520K</td>
+<td>520K</td>
+<td>520K</td>
+</tr>
+<tr>
+<td>RTC SRAM</td>
+<td>16K</td>
+<td>16K</td>
+<td>16K</td>
+<td>16K</td>
+<td>16K</td>
+<td>16K</td>
+<td></td>
+<td align="left">16K</td>
+<td>16K</td>
+<td>16K</td>
+</tr>
+<tr>
+<td>FLASH</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2MB</td>
+<td></td>
+<td align="left">0</td>
+<td>4MB</td>
+<td>4MB</td>
+</tr>
+<tr>
+<td>封装</td>
+<td>QFN7x7 56</td>
+<td>QFN5x5 48</td>
+<td>QFN5x5 48</td>
+<td>QFN6x6 48</td>
+<td>QFN6x6 48</td>
+<td>QFN5x5 48</td>
+<td></td>
+<td align="left">QFN5x5 48</td>
+<td>QFN7x7 48</td>
+<td>QFN7x7 48</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td align="left"></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>USB OTG</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td></td>
+<td align="left">0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>SPI</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td></td>
+<td align="left">4</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2S</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td></td>
+<td align="left">2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>UART</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td></td>
+<td align="left">3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td></td>
+<td align="left">2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SDIO主机</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td align="left">1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SDIO从机</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td align="left">1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LED PWM</td>
+<td>8</td>
+<td>16</td>
+<td>16</td>
+<td>16</td>
+<td>16</td>
+<td>16</td>
+<td></td>
+<td align="left">16</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PWM</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td align="left"></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ADC</td>
+<td>20CH</td>
+<td>18CH</td>
+<td>18CH</td>
+<td>18CH</td>
+<td>18CH</td>
+<td>18CH</td>
+<td></td>
+<td align="left">18CH</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>DAC</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td></td>
+<td align="left">2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TOUCH SENSOR</td>
+<td>14</td>
+<td>10</td>
+<td>10</td>
+<td>10</td>
+<td>10</td>
+<td>10</td>
+<td></td>
+<td align="left">10</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CAN</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td align="left">1</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>HALL</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td align="left">1</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><ul>
+<li><p>ESP32&ensp;-&ensp;D&ensp;0&ensp;WD&ensp;Q6&ensp;V3<br><br>&emsp;|&emsp;&emsp;&emsp;&ensp;|&ensp; |&ensp;  |&ensp;&emsp; |&emsp;&ensp; |<br><br>&emsp;|&emsp;&emsp;&emsp;&ensp;|&ensp; |&ensp;  |&ensp;&emsp; |&emsp;&ensp; |<strong><strong>_ <strong>晶圆ECO V3</strong><br><br>&emsp;|&emsp;&emsp;&emsp;&ensp;|&ensp; |&ensp;  |&ensp;&emsp; |<strong>__</strong></strong></strong> <strong>封装</strong> Q6=QFN 6x6; N/A=QFN 5x5<br><br>&emsp;|&emsp;&emsp;&emsp;&ensp;|&ensp; |&ensp;  |<strong><strong><strong>___</strong></strong></strong> <strong>通信模式</strong> WD=WiFi+BT<br><br>&emsp;|&emsp;&emsp;&emsp;&ensp;|&ensp; |<strong><strong><strong>_____</strong></strong></strong> <strong>嵌入flash</strong> 0=NO; 2=16Mbit<br><br>&emsp;|&emsp;&emsp;&emsp;&ensp;|<strong><strong><strong><strong>___</strong></strong></strong></strong> <strong>内核</strong> D=双核; S=单核<br><br>&emsp;|<strong><strong><strong><strong><strong><strong>____</strong></strong></strong></strong></strong></strong> <strong>ESP32系列</strong><br></p>
+</li>
+<li><p>PWM外设不太清楚有几个定时器，有几个通道，先空着​:smile_cat:​</p>
+</li>
+<li><p>ESP-PICO芯片似乎就是把ESP-D0WD塞进去了</p>
+</li>
+<li><p>ESP-U4WDH芯片没资料，好像是某个芯片的工程样片</p>
+</li>
+</ul>
+<p><strong>V3晶圆改动</strong></p>
+<ul>
+<li><p>1.修复了 PSRAM Cache 问题：修复了 “CPU 以特定顺序访问外部 SRAM 时读写异常”的问题。具体参考《ESP32 勘误表及解决办法》中第 3.9 条。</p>
+</li>
+<li><p>2.修复了“双核 CPU 在读不同地址空间时可能发生读错误”的问题。具体参考<a href="https://www.espressif.com/sites/default/files/documentation/eco_and_workarounds_for_bugs_in_esp32_cn.pdf" target="_blank" rel="noopener">《ESP32 勘误表及解决办法》</a>中第 3.10 条。</p>
+</li>
+<li><p>3.针对客户报告的 “ECO V1 硬件配置下，32.768 KHz 晶振小概率无法正常启动”的问题，优化了 32.768 KHz 晶振的稳定性。</p>
+</li>
+<li><p>4.修复了有关“安全启动”和“闪存加密”的故障注入问题。更多信息，请见乐鑫关于“故障注入”和 “eFuse 保护”的安全建议 (CVE-2019-17391) &amp; 乐鑫发布关于故障注入 (Fault Injection) 和安全启动 (Secure Boot) 的安全性公告 (CVE-2019-15894)。</p>
+</li>
+<li><p>5.优化：CAN 模块⽀支持的最低带宽从 25 kHz 放宽⾄至 12.5 kHz。</p>
+</li>
+</ul>
+<h2 id="模组"><a href="#模组" class="headerlink" title="模组"></a>模组</h2><table>
+<thead>
+<tr>
+<th>模组</th>
+<th>芯片</th>
+<th>FLASH</th>
+<th>PSRAM</th>
+<th>天线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ESP32-WROOM-32D</td>
+<td>ESP32-D0WD</td>
+<td>4MB</td>
+<td>0</td>
+<td>PCB</td>
+</tr>
+<tr>
+<td>ESP32-WROOM-32U</td>
+<td>ESP32-D0WD</td>
+<td>4MB</td>
+<td>0</td>
+<td>IPEX</td>
+</tr>
+<tr>
+<td>ESP32-WROVER</td>
+<td>ESP-D0WDQ6</td>
+<td>4MB</td>
+<td>4MB</td>
+<td>PCB/IPEX</td>
+</tr>
+<tr>
+<td>ESP32-WROVER-B</td>
+<td>ESP-D0WD</td>
+<td>4MB</td>
+<td>8MB</td>
+<td>PCB/IPEX</td>
+</tr>
+<tr>
+<td>ESP32-SOLO-1</td>
+<td>ESP32-S0WD</td>
+<td>4MB</td>
+<td>0</td>
+<td>PCB</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li>ESP32-WROVER-B是 ESP32-WROVER 的新版本，主要区别是将原来的模组上的 PSRAM32M 1.8V 更换为PSRAM64M 3.3V、ESP-D0WDQ6更换为 ESP32-D0WD</li>
+</ul>
+<h2 id="开发板"><a href="#开发板" class="headerlink" title="开发板"></a>开发板</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ESP32-DevKitC</td>
+<td>可选多种模组，最小系统板，全部引脚引出</td>
+</tr>
+<tr>
+<td>ESP-WROVER-KIT-VB</td>
+<td>集成了 LCD 显示屏、摄像头接口，RGB LED 等<br/>Flash / PSRA：4MB flash + 4MB PSRAM<br/>接口 ：I/O, JTAG, USB, Camera, RGB, LED, SD Card, LCD</td>
+</tr>
+<tr>
+<td>ESP-EYE</td>
+<td>搭载 ESP32 芯片、200 W 像素摄像头、数字麦克风、8 MB PSRAM 和 4 MB Flash<br/>支持 Wi-Fi 图像传输、Micro USB 调试和供电，可以实现语音唤醒、人脸检测与识别等功能</td>
+</tr>
+<tr>
+<td>ESP32-Ethernet-Kit</td>
+<td>一款以太网转 Wi-Fi 开发板，可为以太网设备赋予 Wi-Fi 连接功能<br>分为以太网子板和PoE供电子板</td>
+</tr>
+<tr>
+<td>ESP32-PICO-KIT</td>
+<td>乐鑫开发的最小开发板<br>所有管脚均已引出，可用于评估 ESP32 的 SIP模组 ESP32-PICO-D4 性能</td>
+</tr>
+<tr>
+<td>ESP32-LyraT</td>
+<td>为语音交互市场研发的一款音频开发板<br>音源输入：Wi-Fi、蓝牙音频、AirPlay、DLNA、line-in 等<br>接口：有线网口, 触摸按键, TFT 屏幕, Camera 接口等</td>
+</tr>
+<tr>
+<td>ESP32-LyraT-Mini</td>
+<td>单声道音频开发板<br>3W扬声器输出，MicroSD卡槽，8个按键，锂电池充电管理</td>
+</tr>
+<tr>
+<td>ESP32-LyraTD-MSC</td>
+<td>上下两块板组成，集成ZL38063麦克风阵列语音处理DSP芯片</td>
+</tr>
+<tr>
+<td>ESP32-LyraTD-DSPG</td>
+<td>通过FPC排线连接的两块板组成，集成DBMD5P双核可编程语音处理器芯片</td>
+</tr>
+<tr>
+<td>ESP32-LyraTD-SYNA</td>
+<td>集成一个具有双麦克风阵列（利于降噪、回波消除）的数字信号处理器CX20921 以及一个编解码器CX20721</td>
+</tr>
+<tr>
+<td>ESP32-Azure IoT Kit</td>
+<td>集成了 OLED 显示屏和 5 款传感器<br>- 运动传感器<br>- 环境光传感<br>- 磁力计<br>- 气压计<br>- 温湿度计</td>
+</tr>
+<tr>
+<td>ESP32-MeshKit-Sense</td>
+<td>连接了温湿度传感器、环境亮度传感器、屏幕等外设<br>主要用于检测模组在正常工作或睡眠状态下，连接各个外设时的电流情况</td>
+</tr>
+<tr>
+<td>ESP32-Sense Kit</td>
+<td>用于评估和开发 ESP32 触摸传感器功能</td>
+</tr>
+<tr>
+<td>ESP32-LCDKit</td>
+<td>需插入ESP32-DevKitC开发板使用<br>可外接屏幕，集成了MicroSD卡槽，音频功率放大芯片，用于HMI开发</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="ESP8266"><a href="#ESP8266" class="headerlink" title="ESP8266"></a><strong>ESP8266</strong></h1><h2 id="芯片-1"><a href="#芯片-1" class="headerlink" title="芯片"></a>芯片</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ESP8266</th>
+<th>ESP8285N08</th>
+<th>ESP8285H08</th>
+<th>ESP8285H16</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心数</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>频率</td>
+<td>160MHz</td>
+<td>160MHz</td>
+<td>160MHz</td>
+<td>160MHz</td>
+</tr>
+<tr>
+<td>ROM</td>
+<td>0</td>
+<td>1MB</td>
+<td>1MB</td>
+<td>2MB</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>50K+</td>
+<td>75K+</td>
+<td>75K+</td>
+<td>75K+</td>
+</tr>
+<tr>
+<td>封装</td>
+<td>QFN5x5 32</td>
+<td>QFN5x5 32</td>
+<td>QFN5x5 32</td>
+<td>QFN5x5 32</td>
+</tr>
+<tr>
+<td>GPIO</td>
+<td>17</td>
+<td>17</td>
+<td>17</td>
+<td>17</td>
+</tr>
+<tr>
+<td>SDIO从机</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SPI通用主/从</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>SPI通用从</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td>软件</td>
+<td>软件</td>
+<td>软件</td>
+<td>软件</td>
+</tr>
+<tr>
+<td>I2S</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>UART</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>PWM</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>IR收发</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ADC</td>
+<td>1CH</td>
+<td>1CH</td>
+<td>1CH</td>
+<td>1CH</td>
+</tr>
+</tbody></table>
+<h3 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h3><ul>
+<li>RAM只知道大于某个值，具体多少不详</li>
+</ul>
+<h2 id="模组-1"><a href="#模组-1" class="headerlink" title="模组"></a>模组</h2><table>
+<thead>
+<tr>
+<th>模组</th>
+<th>芯片</th>
+<th>FLASH</th>
+<th>天线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ESP-WROOM-02</td>
+<td>ESP8266</td>
+<td>2MB</td>
+<td>PCB</td>
+</tr>
+<tr>
+<td>ESP-WROOM-02D</td>
+<td>ESP8266</td>
+<td>2MB</td>
+<td>PCB</td>
+</tr>
+<tr>
+<td>ESP-WROOM-02U</td>
+<td>ESP8266</td>
+<td>2MB</td>
+<td>IPEX</td>
+</tr>
+<tr>
+<td>ESP-WROOM-02DC</td>
+<td>ESP8266</td>
+<td>2MB</td>
+<td>PCB</td>
+</tr>
+<tr>
+<td>ESP-WROOM-02UC</td>
+<td>ESP8266</td>
+<td>2MB</td>
+<td>IPEX</td>
+</tr>
+<tr>
+<td>ESP-WROOM-S2</td>
+<td>ESP8266</td>
+<td>2MB</td>
+<td>PCB</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li>ESP-WROOM-02D和ESP-WROOM-02U在 ESP-WROOM-02 的基础上，优化了的射频性能</li>
+<li>ESP-WROOM-02DC是ESP-WROOM-02D的2层板版本</li>
+<li>ESP-WROOM-02UC是ESP-WROOM-02U的2层板版本</li>
+</ul>
+<h2 id="开发板-1"><a href="#开发板-1" class="headerlink" title="开发板"></a>开发板</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ESP8266-DevKitC</td>
+<td>可选多种模组，最小系统板，全部引脚引出</td>
+</tr>
+<tr>
+<td>ESP-LAUNCHER</td>
+<td>集成常用外设<br>- 红外遥控发射管和接收管<br>- MicroSD卡槽<br>- 7个LED</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li>1.内部rom和ram与外部的地址如何分布?</li>
+<li>2.ram为什么分成4部分呢?</li>
+<li>3.内部rom和外部FLASH中的代码如何执行的，可以合起来形成一整块还是单独使用?</li>
+<li>4.ESP32-D0WD和ESP32-D0WDQ6除了封装不同还有什么不同?是不是价格不同?</li>
+<li>5.ESP32能不能执行SD/SDIO/MMC 主机控制器接的存储器里面的代码?</li>
+<li>6.ESP32的3组SPI是不是包括了SDIO/SPI 从机控制器里面这个SPI?</li>
+<li>7.模组的命名有什么规律没有?名字怎么来的?</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/esp32/" rel="tag"><i class="fa fa-tag"></i> esp32</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/15/ESP32-security/" rel="prev" title="ESP32 security">
+      <i class="fa fa-chevron-left"></i> ESP32 security
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/15/manual-style/" rel="next" title="manual-style">
+      manual-style <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ESP32"><span class="nav-text">ESP32</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#芯片"><span class="nav-text">芯片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-text">说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模组"><span class="nav-text">模组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发板"><span class="nav-text">开发板</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ESP8266"><span class="nav-text">ESP8266</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#芯片-1"><span class="nav-text">芯片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明-1"><span class="nav-text">说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模组-1"><span class="nav-text">模组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发板-1"><span class="nav-text">开发板</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题"><span class="nav-text">问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zl"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zl</p>
+  <div class="site-description" itemprop="description">事情如果有变坏的可能，不管这种可能性有多小，它总会发生。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp32/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp32&#x2F;overview" rel="noopener" target="_blank">ESP32</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp8266ex/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp8266ex&#x2F;overview" rel="noopener" target="_blank">ESP8266</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.meteorshowers.org/" title="https:&#x2F;&#x2F;www.meteorshowers.org&#x2F;" rel="noopener" target="_blank">meteor shower</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zl</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

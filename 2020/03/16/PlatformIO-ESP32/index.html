@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav_16x16.jpg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":32,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Ubuntu 下使用 VScode 插件 PlatformIO 进行 esp-mdf 开发的折腾记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PlatformIO-ESP32">
+<meta property="og:url" content="http://yoursite.com/2020/03/16/PlatformIO-ESP32/index.html">
+<meta property="og:site_name" content="TDA2030">
+<meta property="og:description" content="Ubuntu 下使用 VScode 插件 PlatformIO 进行 esp-mdf 开发的折腾记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/03/16/PlatformIO-ESP32/platforms-install.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/16/PlatformIO-ESP32/framework-install.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/16/PlatformIO-ESP32/creat-project.png">
+<meta property="og:image" content="http://yoursite.com/2020/03/16/PlatformIO-ESP32/project-task.png">
+<meta property="article:published_time" content="2020-03-16T14:44:35.000Z">
+<meta property="article:modified_time" content="2020-07-06T13:55:51.829Z">
+<meta property="article:author" content="zl">
+<meta property="article:tag" content="esp32">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/16/PlatformIO-ESP32/platforms-install.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/16/PlatformIO-ESP32/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>PlatformIO-ESP32 | TDA2030</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TDA2030</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">espressif learning</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/16/PlatformIO-ESP32/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zl">
+      <meta itemprop="description" content="事情如果有变坏的可能，不管这种可能性有多小，它总会发生。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TDA2030">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PlatformIO-ESP32
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-16 22:44:35" itemprop="dateCreated datePublished" datetime="2020-03-16T22:44:35+08:00">2020-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-06 21:55:51" itemprop="dateModified" datetime="2020-07-06T21:55:51+08:00">2020-07-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>Ubuntu 下使用 VScode 插件 PlatformIO 进行 esp-mdf 开发的折腾记录</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="PlatformIO介绍"><a href="#PlatformIO介绍" class="headerlink" title="PlatformIO介绍"></a>PlatformIO介绍</h1><p>PlatformIO IDE 是下一代物联网集成开发环境。<strong>PlatformIO Core</strong> (CLI tool)  是整个平台生态系统的核心，由以下部分组成：</p>
+<ul>
+<li>多平台编译系统</li>
+<li>开放平台和包管理器</li>
+<li>库管理器</li>
+<li>库依赖项查询器</li>
+<li>串口监视器</li>
+<li>集成组件(云和桌面 IDE 和持续集成)</li>
+</ul>
+<p>PlatformIO Core 是用 Python 编写的，适用于 Windows、macOS、Linux、FreeBSD 和基于 ARM 的信用卡大小的计算机(Raspberry Pi、BeagleBone、CubieBoard、Samsung ARTIK等)。</p>
+<p>PlatformIO Core提供了丰富的、文档化的命令行接口(CLI)。其他基于平台的软件和IDE都基于PlatformIO的核心CLI，比如PlatformIO IDE。换句话说，他们用自己的GUI封装了PlatformIO核心。</p>
+<h1 id="安装PlatformIO-IDE"><a href="#安装PlatformIO-IDE" class="headerlink" title="安装PlatformIO IDE"></a>安装PlatformIO IDE</h1><p>这里的安装是通过VSCode的插件形式安装，也是官方推荐的安装PlatformIO IDE 的方式。教程：<a href="https://docs.platformio.org/en/latest/integration/ide/vscode.html#ide-vscode" target="_blank" rel="noopener">https://docs.platformio.org/en/latest/integration/ide/vscode.html#ide-vscode</a></p>
+<p>安装只需要跟着上面的教程点点鼠标就行了，接下来说明安装完了该如何开发ESP32。</p>
+<h2 id="PlatformIO结构"><a href="#PlatformIO结构" class="headerlink" title="PlatformIO结构"></a>PlatformIO结构</h2><ul>
+<li><p>PlatformIO IDE </p>
+<ul>
+<li>Platforms 开发平台，如 Arduino 、Atmel AVR、Espressif 32、ST STM32 等</li>
+<li>Frameworks 开发框架，如 Espressif 32 平台有 Arduino 、esp-idf、 simba等框架</li>
+<li>Boards 开发板，每个平台会有一些不同的开发板，记录着诸如： cpu类型、ram大小、接口等特性</li>
+<li>Library Manager 管理 PlatformIO Registry  和 VCS 仓库的工具</li>
+</ul>
+</li>
+<li><p>PlatformIO IDE 的工程结构</p>
+<ul>
+<li>include 头文件</li>
+<li>lib 库</li>
+<li>src 源代码</li>
+<li>test 统一测试</li>
+<li>.gitignore 用于管理 Git 忽略某些文件</li>
+<li>.travis.yml </li>
+<li>platformio.ini  项目配置文件</li>
+</ul>
+</li>
+</ul>
+<h1 id="如何开发ESP32"><a href="#如何开发ESP32" class="headerlink" title="如何开发ESP32"></a>如何开发ESP32</h1><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>PlatformIO 支持很多平台的开发，我们需要开发 ESP32 ，理所当然就应该先安装 ESP32 的 Platform ，这里它被叫做 <strong>Espressif 32</strong></p>
+<p><img src="platforms-install.png" alt="platforms-install"></p>
+<p>然后安装开发框架，上面的标签栏选择到 Frameworks ，搜索 <code>ESP</code> ，这里选择 <strong>ESP-IDF</strong> 开发框架</p>
+<p><img src="framework-install.png" alt="framework-install"></p>
+<h2 id="新建工程"><a href="#新建工程" class="headerlink" title="新建工程"></a>新建工程</h2><p>安装好了就可以新建一个工程了，进入 Projects 页面，点击 <code>Creat New Project</code> 再填好信息，最后点 <code>Finish</code> 就会自动新建一个工程。</p>
+<p><img src="creat-project.png" alt="creat-project"></p>
+<p>新建好的工程路径在 <code>~/Documents/PlatformIO/Projects/esp32-mdf-test</code> 目录结构：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── include</span><br><span class="line">│   └── README</span><br><span class="line">├── lib</span><br><span class="line">│   └── README</span><br><span class="line">├── platformio.ini</span><br><span class="line">├── src</span><br><span class="line">│   ├── sdkconfig</span><br><span class="line">│   └── sdkconfig.h</span><br><span class="line">└── test</span><br><span class="line">    └── README</span><br><span class="line"></span><br><span class="line">4 directories, 6 files</span><br></pre></td></tr></table></figure>
+
+<h2 id="快乐开发"><a href="#快乐开发" class="headerlink" title="快乐开发"></a>快乐开发</h2><p>这时你可以使用图像界面来进行操作，也可以用命令行：</p>
+<p><img src="project-task.png" alt="project-task"></p>
+<p>命令行输入 <code>pio -h</code> 就会提示帮助信息，安照提示使用还是很方便的。如果点 PlatformIO Core CLI 没反应可以执行 <code>export PATH=$PATH:/home/yourname/.platformio/penv/bin:/home/yourname/.platformio/penv</code> 来自己手动添加路径（注意把yourname换成你的用户名）。</p>
+<p>到这里，你就可以开始基于 espidf 框架开发自己的程序了，但是有几个<strong>需要注意</strong>：</p>
+<ul>
+<li>PlatformIO 不能用 menuconfig ，暂时的解决办法是直接在 sdkconfig.h 里面修改配置，因为重新编译不会还原 sdkconfig.h 的内容。</li>
+<li>这里的sdkconfig.h 里面不能用 <code>//</code> 注释，只能用 <code>/* */</code>，否则编译不过，最好是不要写注释</li>
+<li>这里的 espidf 版本和乐鑫的 esp-idf 版本命名方式不相同，看起来 PlatformIO 的 espidf 框架是基于乐鑫 esp-idf-v3.3 版本的。</li>
+</ul>
+<hr>
+<h2 id="添加esp-mdf"><a href="#添加esp-mdf" class="headerlink" title="添加esp-mdf"></a>添加esp-mdf</h2><p>在项目中， esp-mdf 也是被经常用到的，遗憾的是 PlatformIO 暂时没有这样的一个库，只能我们自己去添加，下面将说明如何添加 esp-mdf。</p>
+<h3 id="先直接编译看看"><a href="#先直接编译看看" class="headerlink" title="先直接编译看看"></a>先直接编译看看</h3><p>在开始添加库之前，我们先吧 esp-mdf 里的 get-started 例程源码放到我们新建的工程目录的 <code>src</code> 下，目录结构变成这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── include</span><br><span class="line">│   └── README</span><br><span class="line">├── lib</span><br><span class="line">│   └── README</span><br><span class="line">├── platformio.ini</span><br><span class="line">├── src</span><br><span class="line">│   ├── mesh_get_start.c</span><br><span class="line">│   ├── sdkconfig</span><br><span class="line">│   └── sdkconfig.h</span><br><span class="line">└── test</span><br><span class="line">    └── README</span><br></pre></td></tr></table></figure>
+
+<p>然后我们在终端执行 <code>pio run</code> 编译一下，发现报错 <code>src/mesh_get_start.c:15:24: fatal error: mdf_common.h: No such file or directory</code> 。很明显，我们还没有把mdf的相关文件放到工程里，报这样的错是非常正常的。</p>
+<h3 id="添加esp-mdf文件"><a href="#添加esp-mdf文件" class="headerlink" title="添加esp-mdf文件"></a>添加esp-mdf文件</h3><p>这一步就直接把从 <a href="https://github.com/espressif/esp-mdf" target="_blank" rel="noopener">github</a> 弄过来的esp-mdf文件夹放到工程目录的 <code>lib</code>下（<strong>注意</strong>：clone 下来的文件夹里带了esp-idf ，把这个文件夹删掉省点空间），目录结构：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── include</span><br><span class="line">│   └── README</span><br><span class="line">├── lib</span><br><span class="line">│   ├── esp-mdf</span><br><span class="line">│   │   ├── components</span><br><span class="line">│   │   ├── docs</span><br><span class="line">│   │   ├── examples</span><br><span class="line">│   │   ├── LICENSE</span><br><span class="line">│   │   ├── mdf_framework.jpg</span><br><span class="line">│   │   ├── mdf_functions.cmake</span><br><span class="line">│   │   ├── project.cmake</span><br><span class="line">│   │   ├── project.mk</span><br><span class="line">│   │   ├── README_cn.md</span><br><span class="line">│   │   ├── README.md</span><br><span class="line">│   │   └── tools</span><br><span class="line">│   └── README</span><br><span class="line">├── platformio.ini</span><br><span class="line">├── src</span><br><span class="line">│   ├── mesh_get_start.c</span><br><span class="line">│   ├── sdkconfig</span><br><span class="line">│   └── sdkconfig.h</span><br><span class="line">└── test</span><br><span class="line">    └── README</span><br></pre></td></tr></table></figure>
+
+<p>再次编译发现还是一样的错误，PlatformIO 根本没有理会我们加了那么一大堆东西，看来我们得想办法告诉它去哪找esp-mdf，还是要回头看看 <a href="https://docs.platformio.org/en/latest/librarymanager/index.html" target="_blank" rel="noopener">官方文档</a> 关于包管理的说明。</p>
+<h3 id="添加package-json"><a href="#添加package-json" class="headerlink" title="添加package.json"></a>添加package.json</h3><p>文档告诉我们，我们要添加一个叫 <code>package.json</code> 的文件，包管理器会根据这个文件提取出库源码。于是研究了里面的字段后再不停的修改，最终在 <code>lib/esp-mdf</code> 下新建 <code>package.json</code> 并添加了如下内容：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Espressif MESH Development Framework with the ESP32"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"esp-mdf"</span>,</span><br><span class="line">    <span class="attr">"keywords"</span>: <span class="string">"esp-mdf"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"3.30300.190916"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">"platfroms"</span>: <span class="string">"espressif32"</span>,</span><br><span class="line">    <span class="attr">"frameworks"</span>: <span class="string">"espidf"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="attr">"dependencies"</span>:</span><br><span class="line">    [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"framework-espidf"</span>,</span><br><span class="line">            <span class="attr">"version"</span>: <span class="string">"3.30300.190916"</span></span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="attr">"build"</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"libLDFMode"</span>:<span class="string">"deep"</span>,</span><br><span class="line">        <span class="attr">"srcFilter"</span>: [</span><br><span class="line">            <span class="string">"+&lt;components/*/include/*.h&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/*/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/miniz/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/esp-aliyun/wrappers/external_libs/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/esp-aliyun/wrappers/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/esp-aliyun/iotkit-embedded/*/*.c&gt;"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"flags"</span>: </span><br><span class="line">        [</span><br><span class="line">            <span class="string">"-I components/mcommon/include"</span>,</span><br><span class="line">            <span class="string">"-I components/maliyun_linkkit/include"</span>,</span><br><span class="line">            <span class="string">"-I components/mconfig/include"</span>,</span><br><span class="line">            <span class="string">"-I components/mdebug/include"</span>,</span><br><span class="line">            <span class="string">"-I components/mespnow/include"</span>,</span><br><span class="line">            <span class="string">"-I components/mlink/include"</span>,</span><br><span class="line">            <span class="string">"-I components/mupgrade/include"</span>,</span><br><span class="line">            <span class="string">"-I components/mwifi/include"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/miniz/include"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/coap_server/CoAPPacket"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/coap_server/server"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/dev_bind/impl"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/dev_bind/impl/os"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/dev_bind/impl/awss_reset"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/dev_ap"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/frameworks"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/frameworks/aplist"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/frameworks/ieee80211"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/frameworks/statics"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/frameworks/utils"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/p2p"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/phone_ap"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/router_ap"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/smartconfig"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision/zero_config"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wrappers/external_libs/nghttp2"</span>,</span><br><span class="line"></span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/coap_server"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/dev_bind"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/dev_model"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/dev_reset"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/dev_sign"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/infra"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/mqtt"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/ota"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded/wifi_provision"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/iotkit-embedded"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/wrappers/external_libs"</span>,</span><br><span class="line">            <span class="string">"-I components/third_party/esp-aliyun/wrappers"</span></span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译还是报错 <code>esp-mdf/components/mwifi/include/mwifi.h:141:41: error: &#39;CONFIG_MWIFI_VOTE_PERCENTAGE&#39; undeclared</code> 。</p>
+<h3 id="修改sdkconfig-h"><a href="#修改sdkconfig-h" class="headerlink" title="修改sdkconfig.h"></a>修改sdkconfig.h</h3><p>上面的错误明显是 sdkconfig.h 里面缺少一些 mdf 里面特有的宏定义，于是在 sdkconfig.h 后面加上从可以编译的 esp-mdf 里面 copy 出来的一段定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_TASK_DEFAULT_PRIOTY 6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_TASK_PINNED_TO_CORE 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_EVENT_TASK_STACK_SIZE 4096</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_MEM_DEBUG 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_MEM_DBG_INFO_MAX 128</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_ERR_TO_NAME_LOOKUP 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_LOG_LEVEL_DEBUG 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDF_LOG_LEVEL 4</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MCONFIG_WHITELIST_ENABLE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MCONFIG_CHAIN_LMK <span class="meta-string">"lmk1234567890123"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MCONFIG_CUSTOM_EXTERN_LEN 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDEBUG_LOG_PARTITION_LABEL <span class="meta-string">"reserved"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDEBUG_LOG_PARTITION_OFFSET 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MDEBUG_LOG_FILE_MAX_SIZE 32768</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESPNOW_RETRANSMIT_NUM 3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESPNOW_DEFAULT_PMK <span class="meta-string">"pmk1234567890123"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESPNOW_LOG_LEVEL 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESPNOW_TRANS_PIPE_DEBUG_QUEUE_SIZE 5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESPNOW_TRANS_PIPE_CONTROL_QUEUE_SIZE 5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESPNOW_TRANS_PIPE_MCONFIG_QUEUE_SIZE 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESPNOW_TRANS_PIPE_RESERVED_QUEUE_SIZE 5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MUPGRADE_RETRY_COUNT 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MUPGRADE_WAIT_RESPONSE_TIMEOUT 3000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MUPGRADE_STATUS_REPORT_INTERVAL 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MUPGRADE_VERSION_FALLBACK_RESTART 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MUPGRADE_RESTART_COUNT 15</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MUPGRADE_RESTART_TIMEOUT 5000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MUPGRADE_VERSION_FALLBACK_FACTORY 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_VOTE_PERCENTAGE 90</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_VOTE_MAX_COUNT 15</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_BACKOFF_RSSI -78</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_SCAN_MINI_COUNT 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_ROOT_HEALING_MS 6000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_CAPACITY_NUM 512</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_MAX_LAYER 16</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_MAX_CONNECTION 6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_ASSOC_EXPIRE_MS 30000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_BEACON_INTERVAL_MS 100</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_PASSIVE_SCAN_MS 300</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_MONITOR_DURATION_MS 60000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_CNX_RSSI -120</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_SELECT_RSSI -78</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_SWITCH_RSSI -78</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_ATTEMPT_COUNT 60</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_MONITOR_IE_COUNT 10</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_WAIVE_ROOT 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_WAIVE_ROOT_RSSI -70</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_XON_QSIZE 32</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_RETRANSMIT_ENABLE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_DATA_DROP_ENABLE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MWIFI_MESH_IE_ENABLE 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MINIZ_SPLIT_TINFL_DECOMPRESSOR_TAG 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MINIZ_SPLIT_TDEFL_COMPRESSOR 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MINIZ_MINIMIZE_STACK_CONSUME 1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_DEVICE_TYPE 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESH_ID <span class="meta-string">"123456"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_MESH_CHANNEL 13</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// MDF support aliyun linkkit</span></span><br><span class="line"><span class="comment">// #define CONFIG_MESH_SUPPORT_ALIYUN_LINKKIT </span></span><br><span class="line"><span class="comment">// #define CONFIG_MALIYUN_NETWORK_ID "xxxxxxxxxxxxxxx"</span></span><br><span class="line"><span class="comment">// #define CONFIG_MALIYUN_NETWORK_KEY "xxxxxxxxxxxxxxx"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Aliyun IOT SDK</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_IOT_SDK y</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_FIRMWARE_VERSION "0.0.1"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Aliyun device key</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_PRODUCT_KEY "xxxx"</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_PRODUCT_SECRET "xxxx"</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_DEVICE_NAME "xxxx"</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_DEVICE_SECRET "xxxx"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Aliyun awss config</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_ALIYUN_AWSS_TIMEOUT_INTERVAL_MS 180000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_ALIYUN_AWSS_CHANNELSCAN_INTERVAL_MS 200</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Aliyun netwoek config</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_TCP_ESTABLISH_TIMEOUT_MS 10000</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_ALIYUN_TLS_ESTABLISH_TIMEOUT_MS 10000</span></span><br><span class="line"><span class="comment">// #define CONFIG_ALIYUN_TLS_HANDSHAKE_TIMEOUT 180</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Aliyun hal config</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_ALIYUN_HAL_SEM_MAX_COUNT 255</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CONFIG_ALIYUN_HAL_SEM_INIT_COUNT 0</span></span><br></pre></td></tr></table></figure>
+
+<p>再编译一次，就可以看到命令行里编译通过的文件飞快流过，远看就像夜空划过的流星，心中不禁暗喜！</p>
+<p><code>esp-mdf/components/mcommon/include/mdf_common.h:90:30: error: &#39;MDF_VER&#39; undeclared</code> 再次报错，摸索了一番之后发现IDF_VER是在 <code>.platformio/platforms/espressif32/builder/frameworks/espidf.py</code> 653 行处定义的:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">env.Prepend(</span><br><span class="line">    CFLAGS=[<span class="string">"-Wno-old-style-declaration"</span>],</span><br><span class="line"></span><br><span class="line">    CPPDEFINES=[</span><br><span class="line">        <span class="string">"WITH_POSIX"</span>,</span><br><span class="line">        <span class="string">"UNITY_INCLUDE_CONFIG_H"</span>,</span><br><span class="line">        (<span class="string">"IDF_VER"</span>, <span class="string">'\\"%s\\"'</span> %</span><br><span class="line">         platform.get_package_version(<span class="string">"framework-espidf"</span>))</span><br><span class="line"></span><br><span class="line">    ],</span><br></pre></td></tr></table></figure>
+
+<p>那我们就依葫芦画瓢，也在这个文件加一行：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">env.Prepend(</span><br><span class="line">    CFLAGS=[<span class="string">"-Wno-old-style-declaration"</span>],</span><br><span class="line"></span><br><span class="line">    CPPDEFINES=[</span><br><span class="line">        <span class="string">"WITH_POSIX"</span>,</span><br><span class="line">        <span class="string">"UNITY_INCLUDE_CONFIG_H"</span>,</span><br><span class="line">        (<span class="string">"IDF_VER"</span>, <span class="string">'\\"%s\\"'</span> %</span><br><span class="line">         platform.get_package_version(<span class="string">"framework-espidf"</span>)),</span><br><span class="line">         (<span class="string">"MDF_VER"</span>, <span class="string">'\\"%s\\"'</span> % <span class="string">"this-mdf-version"</span>)</span><br><span class="line"></span><br><span class="line">    ],</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改CoAPExport-c"><a href="#修改CoAPExport-c" class="headerlink" title="修改CoAPExport.c"></a>修改CoAPExport.c</h3><p>再次编译，报错 <code>components/newlib/include/ctype.h:57:54: error: array subscript has type &#39;char&#39; [-Werror=char-subscripts]</code> 这个是说数组下标是 char 类型，可以是负数，但是作为数组下标是不能为负数的，所以报错。</p>
+<p>解决方法：把 <code>esp-mdf/components/third_party/esp-aliyun/iotkit-embedded/coap_cloud/CoAPExport.c</code> 里的<code>tolower(*p)</code>改成<code>tolower((unsigned char)*p)</code>，其他几个报类似错误的地方也这样强制转换一下。</p>
+<p>再编译，<strong>0 error(s)</strong>！</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Linking .pio/build/esp-wrover-kit/firmware.elf</span><br><span class="line">Retrieving maximum program size .pio/build/esp-wrover-kit/firmware.elf</span><br><span class="line">Building .pio/build/esp-wrover-kit/firmware.bin</span><br><span class="line">Checking size .pio/build/esp-wrover-kit/firmware.elf</span><br><span class="line">Advanced Memory Usage is available via "PlatformIO Home &gt; Project Inspect"</span><br><span class="line">RAM:   [=         ]  12.6% (used 41324 bytes from 327680 bytes)</span><br><span class="line">Flash: [========  ]  79.2% (used 829991 bytes from 1048576 bytes)</span><br><span class="line">esptool.py v2.6</span><br><span class="line">================================ [SUCCESS] Took 54.51 seconds ========================</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="完善"><a href="#完善" class="headerlink" title="完善"></a>完善</h3><p>这样有点问题，我们修改了 PlatformIO 内部的东西，这样并不好。我们希望修改全都在工程下，这样工程才是完全独立的。于是再修改了一下 package.json ：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Espressif MESH Development Framework with the ESP32"</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"esp-mdf"</span>,</span><br><span class="line">    <span class="attr">"keywords"</span>: <span class="string">"esp-mdf"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"3.30300.190916"</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">"platfroms"</span>: <span class="string">"espressif32"</span>,</span><br><span class="line">    <span class="attr">"frameworks"</span>: <span class="string">"espidf"</span>,</span><br><span class="line">    </span><br><span class="line">    <span class="attr">"dependencies"</span>:</span><br><span class="line">    [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"framework-espidf"</span>,</span><br><span class="line">            <span class="attr">"version"</span>: <span class="string">"3.30300.190916"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="attr">"build"</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"libLDFMode"</span>:<span class="string">"deep"</span>,</span><br><span class="line">        <span class="attr">"srcFilter"</span>: [</span><br><span class="line">            <span class="string">"+&lt;components/*/include/*.h&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/*/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/miniz/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/esp-aliyun/wrappers/external_libs/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/esp-aliyun/wrappers/*.c&gt;"</span>,</span><br><span class="line">            <span class="string">"+&lt;components/third_party/esp-aliyun/iotkit-embedded/*/*.c&gt;"</span></span><br><span class="line">        ],</span><br><span class="line">        <span class="attr">"extraScript"</span>: <span class="string">"generate_headers.py"</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面告诉 PlatformIO 我们额外添加一个 python 脚本 <code>generate_headers.py</code> ，通过这个脚本来控制编译过程，里面写上：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Import(<span class="string">'env'</span>)</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> abspath, basename, isdir, isfile, join</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mdf_version</span><span class="params">(pkg_path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(pkg_path + <span class="string">'/library.json'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        lib_info = json.load(f)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="string">"version"</span> <span class="keyword">not</span> <span class="keyword">in</span> lib_info:</span><br><span class="line">            lib_info[<span class="string">"version"</span>] = <span class="string">"0.0.0"</span></span><br><span class="line">    <span class="keyword">return</span> lib_info[<span class="string">'version'</span>]</span><br><span class="line"></span><br><span class="line">LIB_PATH  = os.getcwd() <span class="comment"># get current path</span></span><br><span class="line"></span><br><span class="line">env.Prepend(</span><br><span class="line">    CPPPATH=[</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"mcommon"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"maliyun_linkkit"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"mconfig"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"mdebug"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"mespnow"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"mlink"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"mupgrade"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"mwifi"</span>, <span class="string">"include"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"miniz"</span>, <span class="string">"include"</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">#COMPONENT_ADD_INCLUDEDIRS</span></span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"coap_server"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"dev_bind"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"dev_model"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"dev_reset"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"dev_sign"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"infra"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"mqtt"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"ota"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"wrappers"</span>, <span class="string">"external_libs"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"wrappers"</span>),</span><br><span class="line"></span><br><span class="line">        <span class="comment">#COMPONENT_PRIV_INCLUDEDIRS</span></span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"coap_server"</span>, <span class="string">"CoAPPacket"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"coap_server"</span>, <span class="string">"server"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"dev_bind"</span>, <span class="string">"impl"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"dev_bind"</span>, <span class="string">"impl"</span>, <span class="string">"os"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"dev_bind"</span>, <span class="string">"impl"</span>, <span class="string">"awss_reset"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"dev_ap"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"frameworks"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"frameworks"</span>, <span class="string">"aplist"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"frameworks"</span>, <span class="string">"ieee80211"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"frameworks"</span>, <span class="string">"statics"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"frameworks"</span>, <span class="string">"utils"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"p2p"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"phone_ap"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"router_ap"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"smartconfig"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wifi_provision"</span>, <span class="string">"zero_config"</span>),</span><br><span class="line">        join(LIB_PATH, <span class="string">"components"</span>, <span class="string">"third_party"</span>, <span class="string">"esp-aliyun"</span>, <span class="string">"iotkit-embedded"</span>, <span class="string">"wrappers"</span>, <span class="string">"external_libs"</span>, <span class="string">"nghttp2"</span>,)</span><br><span class="line"></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    CPPDEFINES=[</span><br><span class="line">         (<span class="string">"MDF_VER"</span>, <span class="string">'\\"%s\\"'</span> % get_mdf_version(LIB_PATH))</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>然后把之前对 <code>.platformio/platforms/espressif32/builder/frameworks/espidf.py</code> 的修改撤销。</p>
+<p>最终工程的结构是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── include</span><br><span class="line">│   └── README</span><br><span class="line">├── lib</span><br><span class="line">│   ├── esp-mdf</span><br><span class="line">│   │   ├── components</span><br><span class="line">│   │   ├── docs</span><br><span class="line">│   │   ├── examples</span><br><span class="line">│   │   ├── generate_headers.py</span><br><span class="line">│   │   ├── library.json</span><br><span class="line">│   │   ├── LICENSE</span><br><span class="line">│   │   ├── mdf_framework.jpg</span><br><span class="line">│   │   ├── mdf_functions.cmake</span><br><span class="line">│   │   ├── project.cmake</span><br><span class="line">│   │   ├── project.mk</span><br><span class="line">│   │   ├── README_cn.md</span><br><span class="line">│   │   ├── README.md</span><br><span class="line">│   │   └── tools</span><br><span class="line">│   └── README</span><br><span class="line">├── platformio.ini</span><br><span class="line">├── src</span><br><span class="line">│   ├── mesh_get_start.c</span><br><span class="line">│   ├── sdkconfig</span><br><span class="line">│   └── sdkconfig.h</span><br><span class="line">└── test</span><br><span class="line">    └── README</span><br></pre></td></tr></table></figure>
+
+<p>再次编译，和原来一样的 <strong>0 error(s)</strong> ，这样修改就全部集中在工程目录内。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>PlatformIO IDE无论是安装还是使用都是很方便的，最大的特点是全程无需安装其他依赖，而且可以轻松在许多平台上运行。代码的执行效率由于并没有再封装一层而没有被降低，只是编译花的时间相比原装的 esp-idf 编译工具变长了。PlatformIO 也提供了添加自定义库的方法，使得该开发者不会局限于已提供的库，具有一定灵活性。使用下来有一点难受的就是前面提到的<strong>不能使用 menuconfig</strong> ，项目的配置全部都要手动修改 sdkconfig.h 文件来实现。对于想用 esp-idf 又不想搭建复杂的编译环境的开发者来说，PlatformIO IDE还是很好的选择。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/esp32/" rel="tag"><i class="fa fa-tag"></i> esp32</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/15/competing-product/" rel="prev" title="competing product">
+      <i class="fa fa-chevron-left"></i> competing product
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/06/iot-solution-note1/" rel="next" title="iot-solution-note1">
+      iot-solution-note1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#PlatformIO介绍"><span class="nav-text">PlatformIO介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装PlatformIO-IDE"><span class="nav-text">安装PlatformIO IDE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PlatformIO结构"><span class="nav-text">PlatformIO结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何开发ESP32"><span class="nav-text">如何开发ESP32</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建工程"><span class="nav-text">新建工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快乐开发"><span class="nav-text">快乐开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加esp-mdf"><span class="nav-text">添加esp-mdf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先直接编译看看"><span class="nav-text">先直接编译看看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加esp-mdf文件"><span class="nav-text">添加esp-mdf文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加package-json"><span class="nav-text">添加package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改sdkconfig-h"><span class="nav-text">修改sdkconfig.h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改CoAPExport-c"><span class="nav-text">修改CoAPExport.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完善"><span class="nav-text">完善</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zl"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zl</p>
+  <div class="site-description" itemprop="description">事情如果有变坏的可能，不管这种可能性有多小，它总会发生。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp32/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp32&#x2F;overview" rel="noopener" target="_blank">ESP32</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp8266ex/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp8266ex&#x2F;overview" rel="noopener" target="_blank">ESP8266</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.meteorshowers.org/" title="https:&#x2F;&#x2F;www.meteorshowers.org&#x2F;" rel="noopener" target="_blank">meteor shower</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zl</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

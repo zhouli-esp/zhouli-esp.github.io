@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav_32x32.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav_16x16.jpg">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"hide","padding":18,"offset":32,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="esp-idf 代码规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="code-style">
+<meta property="og:url" content="http://yoursite.com/2020/03/15/code-style/index.html">
+<meta property="og:site_name" content="TDA2030">
+<meta property="og:description" content="esp-idf 代码规范">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-15T12:45:17.000Z">
+<meta property="article:modified_time" content="2020-07-06T13:55:51.833Z">
+<meta property="article:author" content="zl">
+<meta property="article:tag" content="esp32">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/15/code-style/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>code-style | TDA2030</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TDA2030</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">espressif learning</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/15/code-style/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="zl">
+      <meta itemprop="description" content="事情如果有变坏的可能，不管这种可能性有多小，它总会发生。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TDA2030">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          code-style
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-15 20:45:17" itemprop="dateCreated datePublished" datetime="2020-03-15T20:45:17+08:00">2020-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-06 21:55:51" itemprop="dateModified" datetime="2020-07-06T21:55:51+08:00">2020-07-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>esp-idf 代码规范</p>
+<a id="more"></a>
+
+<h1 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h1><h2 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h2><p>每个缩进层使用4个空格。不要使用制表符进行缩进。将编辑器配置为每次按tab键时发出4个空格。</p>
+<h2 id="垂直间隔"><a href="#垂直间隔" class="headerlink" title="垂直间隔"></a>垂直间隔</h2><p>在函数之间放置一个空行。不要以空行开始或结束函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    do_one_thing();</span><br><span class="line">    do_another_thing();</span><br><span class="line">                                <span class="comment">// INCORRECT, don't place empty line here</span></span><br><span class="line">&#125;</span><br><span class="line">                                <span class="comment">// place empty line here</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">                                <span class="comment">// INCORRECT, don't use an empty line here</span></span><br><span class="line">    <span class="keyword">int</span> var = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (var &lt; SOME_CONSTANT) &#123;</span><br><span class="line">        do_stuff(&amp;var);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只要不严重影响可读性，最大行长度为120个字符。</p>
+<h2 id="水平间隔"><a href="#水平间隔" class="headerlink" title="水平间隔"></a>水平间隔</h2><p>总是在条件和循环关键字之后添加单个空格</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (condition) &#123;    <span class="comment">// correct</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> (n) &#123;        <span class="comment">// correct</span></span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; CONST; ++i) &#123;    <span class="comment">// INCORRECT</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在二元操作符两端添加单个空格。一元运算符不需要空格。可以在乘法运算符和除法运算符之间省略空格</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> y = y0 + (x - x0) * (y1 - y0) / (x1 - x0);    <span class="comment">// correct</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> y = y0 + (x - x0)*(y1 - y0)/(x1 - x0);        <span class="comment">// also okay</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> y_cur = -y;                                         <span class="comment">// correct</span></span><br><span class="line">++y_cur;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> y = y0+(x-x0)*(y1-y0)/(x1-x0);                <span class="comment">// INCORRECT</span></span><br></pre></td></tr></table></figure>
+
+<p>.和-&gt;操作符的周围不需要任何空格。</p>
+<p>有时，在一行中添加水平间隔有助于提高代码的可读性。如下，可以添加空格来对齐函数参数:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gpio_matrix_in(PIN_CAM_D6,   I2S0I_DATA_IN14_IDX, <span class="literal">false</span>);</span><br><span class="line">gpio_matrix_in(PIN_CAM_D7,   I2S0I_DATA_IN15_IDX, <span class="literal">false</span>);</span><br><span class="line">gpio_matrix_in(PIN_CAM_HREF, I2S0I_H_ENABLE_IDX,  <span class="literal">false</span>);</span><br><span class="line">gpio_matrix_in(PIN_CAM_PCLK, I2S0I_DATA_IN15_IDX, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>但是请注意，如果有人添加了一个新行，第一个参数是一个更长的标识符(例如PIN_CAM_VSYNC)，它将不适合。因为必须重新对齐其他行，这添加了无意义的更改。因此，尽量少使用这种对齐，特别是如果您希望稍后将新行添加到这列中。</p>
+</li>
+<li><p>不要使用制表符进行水平对齐。不要在行尾添加尾随空格。</p>
+</li>
+</ul>
+<h2 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h2><p>函数定义的大括号应该在单独的行上</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This is correct:</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// NOT like this:</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在函数中，将左大括号与条件语句和循环语句放在同一行</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (condition) &#123;</span><br><span class="line">    do_one();</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (other_condition) &#123;</span><br><span class="line">    do_two();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>“//“用于单行注释。对于多行注释，可以在每行上使用”//“或”/ * * /“块注释。</p>
+<p>虽然与格式没有直接关系，但下面是一些关于有效使用注释的注意事项。</p>
+<ul>
+<li>不要使用一个注释来禁用某些功能</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_something</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    setup_dma();</span><br><span class="line">    <span class="comment">// load_resources();                // WHY is this thing commented, asks the reader?</span></span><br><span class="line">    start_timer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果不再需要某些代码，则将其完全删除。如果你需要，你可以随时在git历史中查找这个文件。如果您因为临时原因而禁用某些调用，并打算在将来恢复它，则在相邻行上添加解释</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_something</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    setup_dma();</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> we should load resources here, but loader is not fully integrated yet.</span></span><br><span class="line">    <span class="comment">// load_resources();</span></span><br><span class="line">    start_timer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>#if 0 … #endif块也是如此。 如果不使用，请完全删除代码块。 否则，添加注释以解释为什么禁用该块。 不要使用#if 0 … #endif或注释来存储将来可能需要的代码段。</p>
+</li>
+<li><p>不要添加有关作者和更改日期的琐碎注释。 您总是可以查找谁使用git修改了任何给定的行。 例如。 此注释在不添加任何有用信息的情况下，使代码混乱不堪：</p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_something</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    setup_dma();</span><br><span class="line">    <span class="comment">// XXX add 2016-09-01</span></span><br><span class="line">    init_dma_list();</span><br><span class="line">    fill_dma_item(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">// end XXX add</span></span><br><span class="line">    start_timer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="代码行的结束"><a href="#代码行的结束" class="headerlink" title="代码行的结束"></a>代码行的结束</h2><p>commit中只能包含以LF（Unix风格）结尾的文件。</p>
+<p>Windows用户可以将git配置为在本地checkout 是CRLF（Windows风格）结尾，通过设置core.autocrlf设置来commit时以LF结尾。   Github有一个关于设置此选项的文档<github-line-endings>。  但是，由于MSYS2使用Unix样式的行尾，因此在编辑ESP-IDF源文件时，通常更容易将文本编辑器配置为使用LF（Unix样式）结尾。</p>
+<p>如果您在分支中意外地commit了LF结尾，则可以通过在MSYS2或Unix终端中运行此命令将它们转换为Unix（将目录更改为IDF工作目录，并预先检查当前是否已checkout正确的分支）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rebase --exec 'git diff-tree --no-commit-id --name-only -r HEAD | xargs dos2unix &amp;&amp; git commit -a --amend --no-edit --allow-empty' master</span><br></pre></td></tr></table></figure>
+
+<p>(请注意，这行代码将在master上重新建立基，并在最后更改分支名称以在另一个分支上建立基。)</p>
+<p>要更新单个提交，可以运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dos2unix FILENAME</span><br></pre></td></tr></table></figure>
+
+<p>然后运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit --amend</span><br></pre></td></tr></table></figure>
+
+<h2 id="格式化代码"><a href="#格式化代码" class="headerlink" title="格式化代码"></a>格式化代码</h2><p>您可以使用astyle程序根据上述建议对代码进行格式化。</p>
+<p>如果您正在从头开始编写一个文件，或者正在进行完全重写，请随意重新格式化整个文件。如果您正在更改文件的一小部分，不要重新格式化您没有更改的代码。这将帮助其他人检查您的更改。</p>
+<p>要重新格式化文件，请运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tools/format.sh components/my_component/file.c</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h1 id="C-代码格式"><a href="#C-代码格式" class="headerlink" title="C++代码格式"></a>C++代码格式</h1><p>同样的规则适用于C语言。如果它们还不够，应用以下规则。</p>
+<h2 id="文件名"><a href="#文件名" class="headerlink" title="文件名"></a>文件名</h2><p>c++头文件扩展名为.hpp。c++源文件的扩展名是.cpp。后缀对于编译器从普通的C源文件中识别它们是很重要的。</p>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><ul>
+<li><strong>类和结构体</strong> 名称应使用大写字母开头。 成员变量和方法应该用小写。</li>
+<li><strong>命名空间</strong> 应该用小写。</li>
+<li><strong>模板</strong> 在函数声明上方的行中指定。</li>
+<li>就面向对象编程而言，接口命名应不带后缀… Interface。 这使得以后从普通类中提取接口变得更加容易，反之亦然，而无需进行重大更改。</li>
+</ul>
+<h2 id="类中的成员顺序"><a href="#类中的成员顺序" class="headerlink" title="类中的成员顺序"></a>类中的成员顺序</h2><p>优先级顺序是：</p>
+<ul>
+<li>首先是公共成员，然后是受保护的成员，然后是私人成员。省略没有任何成员的公共、受保护或私有部分。</li>
+<li>首先放置构造函数/析构函数，然后放置成员函数，然后放置成员变量。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ForExample</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// first constructors, then default constructor, then destructor</span></span><br><span class="line">    ForExample(<span class="keyword">double</span> example_factor_arg);</span><br><span class="line">    ForExample();</span><br><span class="line">    ~ForExample();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// then remaining pubic methods</span></span><br><span class="line">    set_example_factor(<span class="keyword">double</span> example_factor_arg);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// then public member variables</span></span><br><span class="line">    <span class="keyword">uint32_t</span> public_data_member;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// first private methods</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">internal_method</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// then private member variables</span></span><br><span class="line">    <span class="keyword">double</span> example_factor;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h2><ul>
+<li>命名空间内不缩进</li>
+<li>将public、protected和private标签放在与相应的类标签相同的缩进级别上。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file spaceship.h</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> SPACESHIP_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SPACESHIP_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> spaceships &#123;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SpaceShip</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SpaceShip(<span class="keyword">size_t</span> crew);</span><br><span class="line">    <span class="function"><span class="keyword">size_t</span> <span class="title">get_crew_size</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">size_t</span> crew;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SpaceShuttle</span> :</span> <span class="keyword">public</span> SpaceShip &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    SpaceShuttle();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sojuz</span> :</span> <span class="keyword">public</span> SpaceShip &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Sojuz();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CargoShip</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    CargoShip(<span class="keyword">const</span> T &amp;cargo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    T cargo;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace spaceships</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">// SPACESHIP_H_</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// file spaceship.cpp</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"spaceship.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> spaceships &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Putting the curly braces in the same line for constructors is OK if it only initializes</span></span><br><span class="line"><span class="comment">// values in the initializer list</span></span><br><span class="line">SpaceShip::SpaceShip(<span class="keyword">size_t</span> crew) : crew(crew) &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">SpaceShip::get_crew_size</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> crew;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SpaceShuttle::SpaceShuttle() : SpaceShip(<span class="number">7</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// doing further initialization</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Sojuz::Sojuz() : SpaceShip(<span class="number">3</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// doing further initialization</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">CargoShip&lt;T&gt;::CargoShip(<span class="keyword">const</span> T &amp;cargo) : cargo(cargo) &#123; &#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// namespace spaceships</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="CMake代码风格"><a href="#CMake代码风格" class="headerlink" title="CMake代码风格"></a>CMake代码风格</h1><ul>
+<li>缩进是4个空格</li>
+<li>最大行长为120个字符。 分割行时，请尝试尽可能集中于可读性（例如，通过在单独的行上配对关键字/参数对）。</li>
+<li>不要在endforeach()、endif()等后面的可选括号中放入任何内容。</li>
+<li>对命令、函数和宏名使用小写(with_underscores)。</li>
+<li>对于局部作用域的变量，使用小写字母(with_underscores)。</li>
+<li>对于全局作用域的变量，使用大写(WITH_UNDERSCORES)。</li>
+<li>否则，请遵循<a href="https://github.com/richq/cmake-lint" target="_blank" rel="noopener">cmake-lint</a>项目的默认设置。</li>
+</ul>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/esp32/" rel="tag"><i class="fa fa-tag"></i> esp32</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/15/manual-style/" rel="prev" title="manual-style">
+      <i class="fa fa-chevron-left"></i> manual-style
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/15/compile-time/" rel="next" title="compile time">
+      compile time <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C语言"><span class="nav-text">C语言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缩进"><span class="nav-text">缩进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直间隔"><span class="nav-text">垂直间隔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#水平间隔"><span class="nav-text">水平间隔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#括号"><span class="nav-text">括号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释"><span class="nav-text">注释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码行的结束"><span class="nav-text">代码行的结束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化代码"><span class="nav-text">格式化代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-代码格式"><span class="nav-text">C++代码格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件名"><span class="nav-text">文件名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命名"><span class="nav-text">命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类中的成员顺序"><span class="nav-text">类中的成员顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空格"><span class="nav-text">空格</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CMake代码风格"><span class="nav-text">CMake代码风格</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zl"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">zl</p>
+  <div class="site-description" itemprop="description">事情如果有变坏的可能，不管这种可能性有多小，它总会发生。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp32/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp32&#x2F;overview" rel="noopener" target="_blank">ESP32</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.espressif.com/zh-hans/products/hardware/esp8266ex/overview" title="https:&#x2F;&#x2F;www.espressif.com&#x2F;zh-hans&#x2F;products&#x2F;hardware&#x2F;esp8266ex&#x2F;overview" rel="noopener" target="_blank">ESP8266</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.meteorshowers.org/" title="https:&#x2F;&#x2F;www.meteorshowers.org&#x2F;" rel="noopener" target="_blank">meteor shower</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zl</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
